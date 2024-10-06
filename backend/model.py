@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split 
 from sklearn.ensemble import RandomForestClassifier 
 from sklearn.metrics import accuracy_score, classification_report 
+import joblib
 
 data = pd.read_csv('./predicted_data2.csv') # load the dataset
 
@@ -31,6 +32,7 @@ data['param_count'] = data['body'].apply(count_parameters)
 # include data in feature set
 new_features = ['path_length', 'body_length', 'badwords_count', 'url_depth', 'suspicious_extension', 'param_count']
 X = data[new_features]
+print(f'Model trained on features: {new_features}')
 y = data['class']
 
 # split data
@@ -39,6 +41,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # train model
 clf = RandomForestClassifier(n_estimators=100, random_state=42)
 clf.fit(X_train, y_train)
+
+joblib.dump(clf, 'suspicious_model.pkl')
 
 # test data
 y_pred = clf.predict(X_test)
