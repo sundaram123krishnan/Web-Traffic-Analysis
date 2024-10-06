@@ -1,6 +1,8 @@
 "use client";
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+
 
 export default function Home() {
   const [jsonInput, setJsonInput] = useState('');
@@ -19,6 +21,7 @@ export default function Home() {
         body: jsonInput,
       });
 
+      console.log(jsonInput);
       if (!response.ok) {
         throw new Error('Error: ' + response.statusText);
       }
@@ -38,7 +41,7 @@ export default function Home() {
         <h1 className="text-xl font-semibold text-center mb-4">Upload JSON Data</h1>
 
         <form onSubmit={handleSubmit}>
-          <textarea
+          <Textarea
             className="w-full h-40 p-2 border border-gray-300 rounded-md"
             placeholder="Paste your JSON data here..."
             value={jsonInput}
